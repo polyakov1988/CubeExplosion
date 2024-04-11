@@ -30,8 +30,6 @@ public class CubeSpawner : MonoBehaviour
             newCube.Init(cube);
         }
 
-        cube.Explode();
-        
         PutCubeIntoPool(cube);
     }
 

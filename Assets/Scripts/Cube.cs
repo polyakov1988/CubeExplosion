@@ -33,6 +33,8 @@ public class Cube : MonoBehaviour
         _currentExplosionChancePercentage = parentCube._currentExplosionChancePercentage * _nextExplosionChanceRate;
         transform.localScale = parentTransform.localScale * _nextScaleRate;
         _meshRenderer.material.color = Random.ColorHSV();
+
+        Explode(parentCube.transform.position);
     }
     
     public void OnClicked()
@@ -49,8 +51,8 @@ public class Cube : MonoBehaviour
         }
     }
     
-    public void Explode()
+    private void Explode(Vector3 position)
     {
-        _rigidbody.AddExplosionForce(_explosionForce, transform.position, _explosionRadius);
+        _rigidbody.AddExplosionForce(_explosionForce, position, _explosionRadius);
     }
 }
