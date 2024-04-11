@@ -6,12 +6,7 @@ public class CubePool : MonoBehaviour
 {
     [SerializeField] private Cube _prefab;
     
-    private Queue<Cube> _queue = new Queue<Cube>();
-    
-    private void Awake()
-    {
-        _queue = new Queue<Cube>();
-    }
+    private Queue<Cube> _queue = new();
 
     public Cube GetCube()
     {
