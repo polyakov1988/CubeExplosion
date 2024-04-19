@@ -12,7 +12,7 @@ public class Cube : MonoBehaviour
     [SerializeField] private Rigidbody _rigidbody;
     [SerializeField] float _explosionForce;
     [SerializeField] float _explosionRadius;
-
+    
     private float _currentExplosionChancePercentage;
     
     public Action<Cube> Exploded;
@@ -47,12 +47,34 @@ public class Cube : MonoBehaviour
         }
         else
         {
+            CreateExplosion();
             Destroyed?.Invoke(this);
         }
     }
     
     private void Explode(Vector3 position)
     {
-        _rigidbody.AddExplosionForce(_explosionForce, position, _explosionRadius);
+        AddForce(position, _explosionForce, _explosionRadius);
+    }
+    
+    private void CreateExplosion()
+    {
+        float radius = _explosionRadius / _nextScaleRate;
+        float force = _explosionForce / _nextScaleRate;
+        
+        Collider[] colliders = Physics.OverlapSphere(transform.position, radius);
+        
+        foreach (Collider collider in colliders)
+        {
+            if (collider.TryGetComponent(out Cube cube))
+            {
+                cube.AddForce(transform.position, force, radius);
+            }
+        }
+    }
+    
+    private void AddForce(Vector3 position, float force, float radius)
+    {
+        _rigidbody.AddExplosionForce(force, position, radius);
     }
 }
